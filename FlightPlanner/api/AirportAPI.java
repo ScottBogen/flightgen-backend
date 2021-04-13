@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -23,29 +24,20 @@ public class AirportAPI {
 	private AirportService airportService;
 	
 	@GetMapping("/getAirports")
-	public ResponseEntity<?> getAirports() {
+	public ResponseEntity<?> getAirports(
+			@RequestParam String method,
+			@RequestParam String airportName,
+			@RequestParam int minRange,
+			@RequestParam int maxRange,
+			@RequestParam String airportSize
+			) {
+		
 		try {
-			List<Airport> airports = airportService.getAirports();
+			List<Airport> airports = airportService.getAirports(method, airportName, minRange, maxRange, airportSize);
 			return new ResponseEntity<List<Airport>>(airports, HttpStatus.OK);
 		}
 		catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
-	
-	
-	@GetMapping("/")
-	public ResponseEntity<?> findAirportsWithinDistance(String ident, int radius) {
-		
-		try {
-			List<Airport> airports = airportService.findAirportsWithinDistance(ident, radius);
-			return null;
-		}
-		catch (Exception e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-		}
-		
-	}
-	
-	
 }

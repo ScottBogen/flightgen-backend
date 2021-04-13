@@ -18,16 +18,13 @@ public class AirportServiceImpl implements AirportService {
 	AirportDAO airportDAO;
 	
 	@Override
-	public List<Airport> getAirports() {
-		List<Airport> airports = null;
-		
+	public List<Airport> getAirports(String method, String airportName, int minRange, int maxRange, String airportSize) {
+		List<Airport> airports = null;		
 		try {
-			airports = airportDAO.getAirports();
+			airports = airportDAO.getAirports(method, airportName, minRange, maxRange, airportSize);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		return airports;
 	}
 
